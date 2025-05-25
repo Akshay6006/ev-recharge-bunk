@@ -1,0 +1,121 @@
+/* body.auth-body {
+  background: url("../pics/3.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+} */
+
+/* .auth-container {
+  width: 90%;
+  max-width: 400px;
+  margin: 80px auto;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 10px;
+} */
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  border: none;
+  background: #ccc;
+  cursor: pointer;
+}
+
+.tabs .active {
+  background: #007BFF;
+  color: white;
+}
+
+/* input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+} */
+
+/* a {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+} */
+
+body.auth-body {
+  background: url("../pics/3.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.auth-container {
+  width: 90%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.1); /* More transparent */
+  padding: 40px 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(12px); /* Glass effect */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  position: relative;
+}
+
+.auth-container h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+button {
+  background-color: #007BFF;
+  border: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+a {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  color: #cce0ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.register-link {
+  display: block;
+  text-align: center;
+  margin-top: 25px;
+  color: #cce0ff;
+  font-weight: bold;
+}
