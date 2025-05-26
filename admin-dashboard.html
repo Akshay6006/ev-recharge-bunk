@@ -16,12 +16,36 @@
   </div>
 
   <div class="main">
+
     <div class="topbar">
       <h1>Welcome, Admin</h1>
       <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
     </div>
+    <section class="dashboard-cards">
+  <div class="card" id="card-total-users">
+    <h3>Total Users</h3>
+    <p id="totalUsers">Loading...</p>
+  </div>
+  <div class="card" id="card-total-bookings">
+    <h3>Total Bookings</h3>
+    <p id="totalBookings">Loading...</p>
+  </div>
+  <div class="card" id="card-total-stations">
+    <h3>Charging Stations</h3>
+    <p id="totalStations">Loading...</p>
+  </div>
+  <div class="card" id="card-total-revenue">
+    <h3>Total Revenue</h3>
+    <p id="totalRevenue">Loading...</p>
+  </div>
+</section>
 
-    <div class="cards">
+    <!-- <div class="topbar">
+      <h1>Welcome, Admin</h1>
+      <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
+    </div> -->
+
+    <!-- <div class="cards">
       <div class="card" id="totalUsers">
         <h3>Total Users</h3>
         <p>--</p>
@@ -38,13 +62,13 @@
         <h3>Stations Online</h3>
         <p>--</p>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="animation">
       <img src="images/ev-animation.gif" alt="EV Animation" />
     </div> -->
   </div>
 
-  <script type="module" src="js/dashboard.js"></script>
+<script type="module" src="../js/dashboard.js"></script>
 </body>
 </html>

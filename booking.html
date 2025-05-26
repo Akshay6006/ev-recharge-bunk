@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bookings - EV Recharge</title>
+  <link rel="stylesheet" href="styles/booking.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>⚡ EV User</h2>
+      <nav>
+        <a href="user-dashboard.html">🏠 Dashboard</a>
+        <a href="find-chargers.html">🔌 Find Chargers</a>
+        <a class="active" href="bookings.html">📅 Bookings</a>
+        <a href="support.html">📞 Support</a>
+        <a href="#" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</a>
+        <a href="#" onclick="logout()">📕 Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1>📅 Manage Your Bookings</h1>
+
+      <!-- Booking Summary -->
+      <section class="cards">
+        <div class="card">
+          <h3>Total Bookings</h3>
+          <p><strong>4</strong></p>
+        </div>
+        <div class="card">
+          <h3>Upcoming Booking</h3>
+          <p>June 5, 2025 at 4PM</p>
+        </div>
+      </section>
+
+      <!-- Booking Form -->
+      <section class="form-section">
+        <h2>🔌 Book a Charging Slot</h2>
+        <form id="bookingForm">
+          <label for="date">Select Date:</label>
+          <input type="date" id="date" required />
+
+          <label for="time">Select Time:</label>
+          <input type="time" id="time" required />
+
+          <label for="station">Choose Station:</label>
+          <select id="station" required>
+            <option value="">-- Select Station --</option>
+            <option value="EV Point A">EV Point A</option>
+            <option value="EV Point B">EV Point B</option>
+          </select>
+
+          <button type="submit">Confirm Booking</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
