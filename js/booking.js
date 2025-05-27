@@ -1,82 +1,64 @@
-const auth = firebase.auth();
-const db = firebase.firestore();
+// js/booking.js
 
-const bookingForm = document.getElementById("bookingForm");
-const totalBookingEl = document.querySelector(".card:nth-child(1) p");
-const upcomingBookingEl = document.querySelector(".card:nth-child(2) p");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-let currentUser = null;
-
-// Detect user login
-auth.onAuthStateChanged(async (user) => {
-  if (user) {
-    currentUser = user;
-    loadBookingStats();
-  } else {
-    window.location.href = "login.html";
-  }
-});
-
-function loadBookingStats() {
-  db.collection("bookings")
-    .where("userId", "==", currentUser.uid)
-    .get()
-    .then(snapshot => {
-      const bookings = snapshot.docs.map(doc => doc.data());
-
-      totalBookingEl.textContent = bookings.length;
-
-      const future = bookings
-        .filter(b => new Date(b.date + "T" + b.time) > new Date())
-        .sort((a, b) => new Date(a.date + "T" + a.time) - new Date(b.date + "T" + b.time));
-
-      if (future.length > 0) {
-        upcomingBookingEl.textContent = `${future[0].date} at ${formatTime(future[0].time)}`;
-      } else {
-        upcomingBookingEl.textContent = "No upcoming booking";
-      }
-    });
-}
-
-function formatTime(timeStr) {
-  const [hour, minute] = timeStr.split(":");
-  const date = new Date();
-  date.setHours(hour, minute);
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-}
-
-// Booking submission
-bookingForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
-  const station = document.getElementById("station").value;
-
-  db.collection("bookings").add({
-    userId: currentUser.uid,
-    email: currentUser.email,
-    date,
-    time,
-    station,
-    timestamp: new Date().toISOString()
-  }).then(() => {
-    alert("✅ Booking confirmed!");
-    bookingForm.reset();
-    loadBookingStats();
-  }).catch(err => {
-    console.error(err);
-    alert("❌ Booking failed.");
-  });
-});
-
-// GLOBAL FUNCTIONS
-
-window.logout = function () {
-  auth.signOut().then(() => {
-    window.location.href = "login.html";
-  });
+// ✅ Firebase Config (use your actual credentials)
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MSG_ID",
+  appId: "YOUR_APP_ID"
 };
 
-window.toggleDarkMode = function () {
-  document.body.classList.toggle("dark-mode");
-};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// ✅ Handle Booking Form Submit
+document.addEventListener("DOMContentLoaded", () => {
+  const bookingForm = document.getElementById("bookingForm");
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = "login.html";
+    }
+
+    if (bookingForm) {
+      bookingForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const station = document.getElementById("station").value;
+        const date = document.getElementById("date").value;
+        const time = document.getElementById("time").value;
+
+        try {
+          await addDoc(collection(db, "bookings"), {
+            userId: user.uid,
+            station,
+            date,
+            time,
+            createdAt: serverTimestamp()
+          });
+
+          alert("✅ Booking successful!");
+          bookingForm.reset();
+        } catch (error) {
+          console.error("Booking Error:", error);
+          alert("❌ Failed to book. Try again.");
+        }
+      });
+    }
+  });
+});

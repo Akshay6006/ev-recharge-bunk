@@ -1,32 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Find a Charger</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find Charger</title>
+  <link rel="stylesheet" href="styles/find-charger.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>⚡ EV User</h2>
+      <nav>
+        <a href="user-dashboard.html">🏠 Dashboard</a>
+        <a href="#" class="active">🔌 Find Chargers</a>
+        <a href="booking.html">📅 Bookings</a>
+        <a href="#">📞 Support</a>
+        <a href="#" onclick="toggleDarkMode()">🌓 Dark Mode</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+      </nav>
+    </aside>
 
-<header class="navbar">
-  <div class="logo">EVCharge</div>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="find-charger.html">Find a Charger</a></li>
-      <li><a href="#">My Account</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
-</header>
+    <main class="main-content">
+      <header>
+        <h1>Find Charging Stations Nearby</h1>
+        <p>Explore available stations around you</p>
+      </header>
 
-<section class="map-section">
-  <h2>Nearby Charging Stations</h2>
-  <div id="map"></div>
-</section>
+      <section class="map-section">
+        <div id="mapPlaceholder">[ Map will appear here ]</div>
+      </section>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="scripts/map.js"></script>
+      <section class="stations-list">
+        <h2>Available Charging Stations</h2>
+        <ul id="stationList">
+          <li>Loading stations...</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <!-- <script type="module" src="js/common.js"></script> -->
+  <script type="module" src="js/find-charger.js"></script>
 </body>
 </html>
