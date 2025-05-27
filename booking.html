@@ -3,57 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bookings - EV Recharge</title>
+  <title>Book a Charging Slot</title>
   <link rel="stylesheet" href="styles/booking.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script type="module" src="js/dashboard.js"></script>
 </head>
 <body>
   <div class="container">
-    <!-- Sidebar -->
     <aside class="sidebar">
       <h2>⚡ EV User</h2>
       <nav>
         <a href="user-dashboard.html">🏠 Dashboard</a>
-        <a href="find-chargers.html">🔌 Find Chargers</a>
-        <a class="active" href="bookings.html">📅 Bookings</a>
-        <a href="support.html">📞 Support</a>
-        <a href="#" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</a>
-        <a href="#" onclick="logout()">📕 Logout</a>
+        <a href="#" class="active">📅 Book Slot</a>
+        <a href="#">📞 Support</a>
+        <a href="#" onclick="toggleDarkMode()">🌓 Dark Mode</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
       </nav>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
-      <h1>📅 Manage Your Bookings</h1>
+      <header>
+        <h1>Book a Charging Station</h1>
+        <p>Select your preferred station and slot.</p>
+      </header>
 
-      <!-- Booking Summary -->
-      <section class="cards">
-        <div class="card">
-          <h3>Total Bookings</h3>
-          <p><strong>4</strong></p>
-        </div>
-        <div class="card">
-          <h3>Upcoming Booking</h3>
-          <p>June 5, 2025 at 4PM</p>
-        </div>
-      </section>
-
-      <!-- Booking Form -->
       <section class="form-section">
-        <h2>🔌 Book a Charging Slot</h2>
         <form id="bookingForm">
+          <label for="station">Select Station:</label>
+          <select id="station" required>
+            <option value="">-- Select --</option>
+            <option value="Station A">Station A</option>
+            <option value="Station B">Station B</option>
+          </select>
+
           <label for="date">Select Date:</label>
           <input type="date" id="date" required />
 
           <label for="time">Select Time:</label>
           <input type="time" id="time" required />
-
-          <label for="station">Choose Station:</label>
-          <select id="station" required>
-            <option value="">-- Select Station --</option>
-            <option value="EV Point A">EV Point A</option>
-            <option value="EV Point B">EV Point B</option>
-          </select>
 
           <button type="submit">Confirm Booking</button>
         </form>
@@ -61,6 +48,30 @@
     </main>
   </div>
 
-  <script src="js/dashboard.js"></script>
+  <div id="snackbar" class="snackbar">Booking confirmed!</div>
+
+  <script>
+    const form = document.getElementById("bookingForm");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const station = document.getElementById("station").value;
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+
+      if (station && date && time) {
+        showSnackbar("✅ Booking confirmed!");
+        form.reset();
+      }
+    });
+
+    function showSnackbar(message) {
+      const snackbar = document.getElementById("snackbar");
+      snackbar.textContent = message;
+      snackbar.classList.add("show");
+      setTimeout(() => snackbar.classList.remove("show"), 3000);
+    }
+  </script>
 </body>
 </html>

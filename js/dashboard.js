@@ -1,24 +1,35 @@
 // js/dashboard.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import {
   getAuth,
   onAuthStateChanged,
   signOut
-} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 import {
   getFirestore,
   doc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+  getDoc,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-import { firebaseConfig } from "./firebase-config.js";  // ✅ Correct path
+// ✅ Firebase Config (use your actual config)
+const firebaseConfig = {
+  apiKey: "AIzaSyAPjZ3lu2dvuDgKcvpxLaarMnzj7n1si7Y",
+  authDomain: "ev-recharge-bunk-dbd05.firebaseapp.com",
+  projectId: "ev-recharge-bunk-dbd05",
+  storageBucket: "ev-recharge-bunk-dbd05.firebasestorage.app",
+  messagingSenderId: "376503343817",
+  appId: "1:376503343817:web:564092ebe808ad8bbe4b18"
+};
 
-// Initialize Firebase
+// ✅ Initialize Firebase only once
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Auth State Listener
+// ✅ Auth Check and Data Load
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "login.html";
@@ -30,88 +41,67 @@ onAuthStateChanged(auth, async (user) => {
 
   if (docSnap.exists()) {
     const data = docSnap.data();
-    document.getElementById("userName").textContent = data.email.split("@")[0];
-    document.getElementById("userEmail").textContent = data.email;
 
-    // Example dynamic values
-    document.getElementById("totalBookings").querySelector("p").textContent = "4";
-    document.getElementById("upcomingBooking").querySelector("p").textContent = "June 5, 2025 at 4PM";
+    const userNameElem = document.getElementById("userName");
+    const userEmailElem = document.getElementById("userEmail");
+    if (userNameElem) userNameElem.textContent = data.email.split("@")[0];
+    if (userEmailElem) userEmailElem.textContent = data.email;
 
+    const totalBookingsElem = document.getElementById("totalBookings");
+    const upcomingBookingElem = document.getElementById("upcomingBooking");
+
+    if (totalBookingsElem) totalBookingsElem.querySelector("p").textContent = "4";
+    if (upcomingBookingElem) upcomingBookingElem.querySelector("p").textContent = "June 5, 2025 at 4PM";
+
+    if (data.role === "admin") {
+      loadAdminDashboard();
+    }
   } else {
     alert("User data not found.");
     signOut(auth);
   }
 });
-// Load admin dashboard stats
-async function loadDashboardStats() {
-  // Total Users
+
+// ✅ Load admin stats if admin
+async function loadAdminDashboard() {
   const usersSnapshot = await getDocs(collection(db, "users"));
-  document.getElementById("totalUsers").textContent = usersSnapshot.size;
-
-  // Total Bookings
   const bookingsSnapshot = await getDocs(collection(db, "bookings"));
-  document.getElementById("totalBookings").textContent = bookingsSnapshot.size;
-
-  // Charging Stations
   const stationSnapshot = await getDocs(collection(db, "stations"));
-  document.getElementById("totalStations").textContent = stationSnapshot.size;
 
-  // Total Revenue (from bookings)
+  const totalUsersElem = document.getElementById("totalUsers");
+  const totalBookingsElem = document.getElementById("totalBookings");
+  const totalStationsElem = document.getElementById("totalStations");
+  const totalRevenueElem = document.getElementById("totalRevenue");
+
+  if (totalUsersElem) totalUsersElem.textContent = usersSnapshot.size;
+  if (totalBookingsElem) totalBookingsElem.textContent = bookingsSnapshot.size;
+  if (totalStationsElem) totalStationsElem.textContent = stationSnapshot.size;
+
   let totalRevenue = 0;
   bookingsSnapshot.forEach((doc) => {
     const data = doc.data();
     totalRevenue += data.amount || 0;
   });
-  document.getElementById("totalRevenue").textContent = `₹${totalRevenue}`;
+
+  if (totalRevenueElem) totalRevenueElem.textContent = `₹${totalRevenue}`;
 }
 
-// Call after auth state confirms admin
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const docRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists() && docSnap.data().role === "admin") {
-      await loadDashboardStats();
-    }
-  }
-});
-
-
-// Logout
-window.logout = function () {
-  signOut(auth).then(() => {
-    window.location.href = "login.html";
-  });
-};
-
-// Dark Mode Toggle
-window.toggleDarkMode = function () {
-  document.body.classList.toggle("dark");
-};
-import { db } from './firebase-config.js';
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-// Load Users into Table
-const userTableBody = document.getElementById("userTableBody");
-
-if (userTableBody) {
-  const fetchUsers = async () => {
-    const usersRef = collection(db, "users");
-    const snapshot = await getDocs(usersRef);
-    userTableBody.innerHTML = ""; // Clear existing rows
-
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      const row = `
-        <tr>
-          <td>${data.name || "N/A"}</td>
-          <td>${data.email}</td>
-          <td>${data.role || "user"}</td>
-          <td>${data.createdAt ? new Date(data.createdAt.seconds * 1000).toLocaleDateString() : "N/A"}</td>
-        </tr>`;
-      userTableBody.innerHTML += row;
+// ✅ Logout Function
+function logout() {
+  signOut(auth)
+    .then(() => {
+      window.location.href = "login.html";
+    })
+    .catch((error) => {
+      console.error("Logout Error:", error);
     });
-  };
-
-  fetchUsers();
 }
+
+// ✅ Dark Mode Toggle
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
+
+// ✅ Expose to HTML inline
+window.logout = logout;
+window.toggleDarkMode = toggleDarkMode;
