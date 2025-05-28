@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Find Charger</title>
+  <title>Find a Charger</title>
   <link rel="stylesheet" href="styles/find-charger.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:,"> <!-- Prevent favicon error -->
 </head>
 <body>
   <div class="container">
@@ -16,32 +17,32 @@
         <a href="#" class="active">🔌 Find Chargers</a>
         <a href="booking.html">📅 Bookings</a>
         <a href="#">📞 Support</a>
-        <a href="#" onclick="toggleDarkMode()">🌓 Dark Mode</a>
+        <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
         <a href="#" onclick="logout()">🚪 Logout</a>
       </nav>
     </aside>
 
     <main class="main-content">
       <header>
-        <h1>Find Charging Stations Nearby</h1>
-        <p>Explore available stations around you</p>
+        <h1>Find Nearby Charging Stations</h1>
+        <p>Use the map to locate EV chargers near you.</p>
       </header>
 
-      <section class="map-section">
-        <div id="mapPlaceholder">[ Map will appear here ]</div>
-      </section>
-
-      <section class="stations-list">
-        <h2>Available Charging Stations</h2>
-        <ul id="stationList">
-          <li>Loading stations...</li>
-        </ul>
-      </section>
+      <div id="map" style="height: 500px; width: 100%;"></div>
     </main>
   </div>
 
-  <!-- Scripts -->
-  <!-- <script type="module" src="js/common.js"></script> -->
-  <script type="module" src="js/find-charger.js"></script>
+ <!-- Your custom script first -->
+<script type="module" src="js/find-charger.js"></script>
+
+<!-- Then Google Maps -->
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPjZ3lu2dvuDgKcvpxLaarMnzj7n1si7Y"
+  async
+  defer>
+</script>
+
+
 </body>
 </html>
+<!-- AIzaSyAPjZ3lu2dvuDgKcvpxLaarMnzj7n1si7Y -->

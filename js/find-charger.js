@@ -1,42 +1,68 @@
-// js/find-charger.js
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import {
-  getFirestore,
-  collection,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
 import { firebaseConfig } from "./firebase-config.js";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const auth = getAuth(app);
 
-// Fetch stations and populate list
-async function loadStations() {
-  const stationList = document.getElementById("stationList");
-  stationList.innerHTML = "<li>Loading...</li>";
-
-  try {
-    const querySnapshot = await getDocs(collection(db, "stations"));
-    stationList.innerHTML = "";
-
-    if (querySnapshot.empty) {
-      stationList.innerHTML = "<li>No stations found.</li>";
-      return;
-    }
-
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      const listItem = document.createElement("li");
-      listItem.textContent = `${data.name} - ${data.location}`;
-      stationList.appendChild(listItem);
-    });
-
-  } catch (error) {
-    console.error("Error fetching stations:", error);
-    stationList.innerHTML = "<li>Error loading stations.</li>";
+// Auth check
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
   }
-}
+});
 
-loadStations();
+// Logout handler
+window.logout = function () {
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  });
+};
+
+// Dark mode toggle
+window.toggleDarkMode = function () {
+  document.body.classList.toggle("dark");
+};
+
+// 🧠 Wait for the Google Maps script to load
+const waitForGoogleMaps = () => {
+  return new Promise((resolve, reject) => {
+    const interval = setInterval(() => {
+      if (window.google && window.google.maps) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 100);
+    setTimeout(() => reject("Google Maps load timed out"), 5000);
+  });
+};
+
+// ✅ Use that wait function before calling initMap
+waitForGoogleMaps()
+  .then(() => {
+    initMap();
+  })
+  .catch((err) => {
+    console.error("Google Maps failed to load:", err);
+  });
+
+// ✅ Define initMap normally
+function initMap() {
+  const center = { lat: 12.9716, lng: 77.5946 }; // Bangalore
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 13,
+    center: center,
+  });
+
+  new google.maps.Marker({
+    position: center,
+    map: map,
+    title: "Sample EV Charger",
+  });
+}
