@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Bookings - Admin</title>
+  <link rel="stylesheet" href="styles/manage-booking.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Manage Bookings</h1>
+
+    <input type="text" id="search" placeholder="Search by email or date..." />
+
+    <table id="bookingsTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>User Email</th>
+          <th>Charger</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Populated dynamically -->
+      </tbody>
+    </table>
+  </div>
+
+  <script type="module" src="js/manage-bookings.js"></script>
+</body>
+</html>

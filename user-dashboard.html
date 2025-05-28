@@ -1,22 +1,25 @@
 <!-- user-dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Dashboard</title>
   <link rel="stylesheet" href="styles/user-dashboard.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
   <div class="container">
     <aside class="sidebar">
       <h2>⚡ EV User</h2>
       <nav>
+        <a href="profile.html">  Profile</a>
         <a href="#" class="active">🏠 Dashboard</a>
-        <a href="#">🔌 Find Chargers</a>
+        <a href="find-charger.html">🔌 Find Chargers</a>
         <a href="booking.html">📅 Bookings</a>
-        <a href="#">📞 Support</a>
+        <a href="support.html">📞 Support</a>
         <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
         <a href="#" onclick="logout()">🚪 Logout</a>
       </nav>
@@ -54,7 +57,8 @@
     </main>
   </div>
 
-<script type="module" src="../js/dashboard.js"></script>
+  <script type="module" src="../js/dashboard.js"></script>
   <script type="module" src="js/calendar.js"></script>
 </body>
+
 </html>

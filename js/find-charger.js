@@ -7,22 +7,17 @@ import {
 
 import { firebaseConfig } from "./firebase-config.js";
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Auth check
+// Auth protection
 onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-  }
+  if (!user) window.location.href = "login.html";
 });
 
-// Logout handler
+// Logout
 window.logout = function () {
-  signOut(auth).then(() => {
-    window.location.href = "login.html";
-  });
+  signOut(auth).then(() => window.location.href = "login.html");
 };
 
 // Dark mode toggle
@@ -30,39 +25,16 @@ window.toggleDarkMode = function () {
   document.body.classList.toggle("dark");
 };
 
-// 🧠 Wait for the Google Maps script to load
-const waitForGoogleMaps = () => {
-  return new Promise((resolve, reject) => {
-    const interval = setInterval(() => {
-      if (window.google && window.google.maps) {
-        clearInterval(interval);
-        resolve();
-      }
-    }, 100);
-    setTimeout(() => reject("Google Maps load timed out"), 5000);
-  });
+// Load Leaflet map
+window.onload = function () {
+  const map = L.map('map').setView([12.9716, 77.5946], 13); // Bangalore
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Sample marker
+  L.marker([12.9716, 77.5946]).addTo(map)
+    .bindPopup('EV Charging Station')
+    .openPopup();
 };
-
-// ✅ Use that wait function before calling initMap
-waitForGoogleMaps()
-  .then(() => {
-    initMap();
-  })
-  .catch((err) => {
-    console.error("Google Maps failed to load:", err);
-  });
-
-// ✅ Define initMap normally
-function initMap() {
-  const center = { lat: 12.9716, lng: 77.5946 }; // Bangalore
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 13,
-    center: center,
-  });
-
-  new google.maps.Marker({
-    position: center,
-    map: map,
-    title: "Sample EV Charger",
-  });
-}

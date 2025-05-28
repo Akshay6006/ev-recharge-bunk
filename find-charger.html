@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Find a Charger</title>
   <link rel="stylesheet" href="styles/find-charger.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:,"> <!-- Prevent favicon error -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
   <div class="container">
@@ -17,7 +17,7 @@
         <a href="#" class="active">🔌 Find Chargers</a>
         <a href="booking.html">📅 Bookings</a>
         <a href="#">📞 Support</a>
-        <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
+        <a href="#" onclick="toggleDarkMode()">🌓 Dark Mode</a>
         <a href="#" onclick="logout()">🚪 Logout</a>
       </nav>
     </aside>
@@ -25,24 +25,13 @@
     <main class="main-content">
       <header>
         <h1>Find Nearby Charging Stations</h1>
-        <p>Use the map to locate EV chargers near you.</p>
+        <p>This map shows sample charger locations using Leaflet.js</p>
       </header>
 
       <div id="map" style="height: 500px; width: 100%;"></div>
     </main>
   </div>
 
- <!-- Your custom script first -->
-<script type="module" src="js/find-charger.js"></script>
-
-<!-- Then Google Maps -->
-<script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPjZ3lu2dvuDgKcvpxLaarMnzj7n1si7Y"
-  async
-  defer>
-</script>
-
-
+  <script type="module" src="js/find-charger.js"></script>
 </body>
 </html>
-<!-- AIzaSyAPjZ3lu2dvuDgKcvpxLaarMnzj7n1si7Y -->
