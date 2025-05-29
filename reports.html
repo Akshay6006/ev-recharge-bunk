@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Reports</title>
+  <link rel="stylesheet" href="styles/reports.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Reports</h1>
+
+    <div class="cards">
+      <div class="card" id="totalUsers">👥 Total Users: <span>0</span></div>
+      <div class="card" id="totalBookings">📄 Total Bookings: <span>0</span></div>
+      <div class="card" id="topCharger">⚡ Most Used Charger: <span>N/A</span></div>
+    </div>
+
+    <canvas id="bookingChart" height="100"></canvas>
+  </div>
+
+  <script type="module" src="js/reports.js"></script>
+</body>
+</html>
