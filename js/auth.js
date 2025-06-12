@@ -1,94 +1,73 @@
-// js/auth.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import {
   getAuth,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  sendPasswordResetEmail
-} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+  signInWithEmailAndPassword,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Handle login/register UI toggling
-window.toggleAuth = function(mode) {
-  document.getElementById("loginForm").style.display = mode === "login" ? "block" : "none";
-  document.getElementById("registerForm").style.display = mode === "register" ? "block" : "none";
-  document.getElementById("loginTab").classList.toggle("active", mode === "login");
-  document.getElementById("registerTab").classList.toggle("active", mode === "register");
-};
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const nameInput = document.getElementById("name");
+const authButton = document.getElementById("authButton");
+const formTitle = document.getElementById("form-title");
+const toggleLink = document.getElementById("toggleLink");
+const toggleText = document.getElementById("toggleText");
+const errorMsg = document.getElementById("errorMsg");
 
-// Login function
-window.login = async function () {
-  const email = document.getElementById("login-email").value.trim();
-  const password = document.getElementById("login-password").value.trim();
+let isLogin = true;
 
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const uid = userCredential.user.uid;
-    const docRef = doc(db, "users", uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const userData = docSnap.data();
-      const role = userData.role;
-      if (role === "admin") {
-        window.location.href = "admin-dashboard.html";
-      } else if (role === "user") {
-        window.location.href = "user-dashboard.html";
-      } else {
-        alert("User role not defined.");
-      }
-    } else {
-      alert("No user role found in database.");
-    }
-  } catch (error) {
-    alert("Login failed: " + error.message);
+toggleLink.addEventListener("click", () => {
+  isLogin = !isLogin;
+  if (isLogin) {
+    formTitle.textContent = "Login";
+    nameInput.style.display = "none";
+    authButton.textContent = "Login";
+    toggleText.innerHTML = `Don't have an account? <a href="#" id="toggleLink">Register</a>`;
+  } else {
+    formTitle.textContent = "Register";
+    nameInput.style.display = "block";
+    authButton.textContent = "Register";
+    toggleText.innerHTML = `Already have an account? <a href="#" id="toggleLink">Login</a>`;
   }
-};
+});
 
-// Register function
-window.register = async function () {
-  const email = document.getElementById("register-email").value.trim();
-  const password = document.getElementById("register-password").value.trim();
-  const role = document.getElementById("role").value;
+authButton.addEventListener("click", async () => {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+  const name = nameInput.value.trim();
 
-  if (!["admin", "user"].includes(role)) {
-    return alert("Please select a valid role.");
-  }
+  errorMsg.textContent = "";
 
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const uid = userCredential.user.uid;
-    await setDoc(doc(db, "users", uid), {
-      email: email,
-      role: role
-    });
-    alert("Registration successful! You can now log in.");
-    window.toggleAuth("login");
-  } catch (error) {
-    alert("Registration failed: " + error.message);
-  }
-};
-
-// Forgot password function
-window.forgotPassword = function () {
-  const email = document.getElementById("login-email").value.trim();
-  if (!email) {
-    alert("Please enter your email address.");
+  if (!email || !password || (!isLogin && !name)) {
+    errorMsg.textContent = "Please fill all fields.";
     return;
   }
 
-  sendPasswordResetEmail(auth, email)
-    .then(() => alert("Password reset email sent!"))
-    .catch((error) => alert("Error: " + error.message));
-};
+  try {
+    if (isLogin) {
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.href = "user-dashboard.html"; // redirect after login
+    } else {
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCred.user, {
+        displayName: name,
+      });
+      await setDoc(doc(db, "users", userCred.user.uid), {
+        email: email,
+        displayName: name,
+        role: "user",
+      });
+      alert("Registered successfully!");
+      window.location.href = "user-dashboard.html";
+    }
+  } catch (error) {
+    errorMsg.textContent = error.message;
+  }
+});

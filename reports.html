@@ -2,23 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Reports</title>
-  <link rel="stylesheet" href="styles/reports.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Reports - EV Recharge Bunk</title>
+  <link rel="stylesheet" href="styles/admin-reports.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Admin Reports</h1>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>⚙️ Admin Panel</h2>
+      <nav>
+        <a href="admin-dashboard.html">🏠 Dashboard</a>
+        <a href="manage-users.html">👥 Manage Users</a>
+        <a href="manage-bookings.html">📅 Manage Bookings</a>
+        <a href="admin-reports.html" class="active">📊 Reports</a>
+        <a href="profile.html">👤 Profile</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+      </nav>
+    </aside>
 
-    <div class="cards">
-      <div class="card" id="totalUsers">👥 Total Users: <span>0</span></div>
-      <div class="card" id="totalBookings">📄 Total Bookings: <span>0</span></div>
-      <div class="card" id="topCharger">⚡ Most Used Charger: <span>N/A</span></div>
-    </div>
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1>📊 Usage Reports</h1>
+      <p>Below are analytics and usage stats for the EV Recharge Bunk system.</p>
 
-    <canvas id="bookingChart" height="100"></canvas>
+      <div class="report-card">
+        <h3>Total Users</h3>
+        <p id="totalUsers">--</p>
+      </div>
+
+      <div class="report-card">
+        <h3>Total Bookings</h3>
+        <p id="totalBookings">--</p>
+      </div>
+
+      <div class="report-card">
+        <h3>Top Charging Stations</h3>
+        <ul id="topStations">
+          <li>--</li>
+        </ul>
+      </div>
+    </main>
   </div>
 
-  <script type="module" src="js/reports.js"></script>
+  <script src="scripts/admin-reports.js" type="module"></script>
 </body>
 </html>

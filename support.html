@@ -7,28 +7,32 @@
   <link rel="stylesheet" href="styles/support.css" />
 </head>
 <body>
-  <div class="support-container">
-    <h2>Support & Help</h2>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>⚡ EV User</h2>
+      <nav>
+        <a href="user-dashboard.html">🏠 Dashboard</a>
+        <a href="find-charger.html">🔌 Find Chargers</a>
+        <a href="booking.html">📅 Bookings</a>
+        <a href="support.html" class="active">📞 Support</a>
+        <a href="profile.html">👤 Profile</a>
+        <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+      </nav>
+    </aside>
 
-    <section class="contact-info">
-      <h3>Contact Us</h3>
-      <p>Email: support@evbunk.com</p>
-      <p>Phone: +91 7321946006</p>
-      <p>Hours: Mon–Fri, 9:00 AM – 6:00 PM</p>
-    </section>
-
-    <section class="support-form">
-      <h3>Submit Your Query</h3>
+    <main class="main-content">
+      <h1>Need Help?</h1>
+      <p>If you’re facing any issues, feel free to reach out to us.</p>
       <form id="supportForm">
-        <input type="text" id="name" placeholder="Your Name" required />
-        <input type="email" id="email" placeholder="Your Email" required />
-        <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
-        <button type="submit">Send Message</button>
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Describe your issue here..." required></textarea>
+        <button type="submit">Submit</button>
       </form>
-      <p id="formStatus"></p>
-    </section>
+    </main>
   </div>
 
-  <script src="js/support.js"></script>
+  <script src="scripts/common.js"></script>
 </body>
 </html>

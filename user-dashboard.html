@@ -1,25 +1,22 @@
-<!-- user-dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Dashboard</title>
-  <link rel="stylesheet" href="styles/user-dashboard.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Dashboard - EV App</title>
+  <link rel="stylesheet" href="styles/dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
-
 <body>
   <div class="container">
     <aside class="sidebar">
       <h2>⚡ EV User</h2>
       <nav>
-        <a href="profile.html">  Profile</a>
-        <a href="#" class="active">🏠 Dashboard</a>
+        <a href="user-dashboard.html" class="active">🏠 Dashboard</a>
         <a href="find-charger.html">🔌 Find Chargers</a>
         <a href="booking.html">📅 Bookings</a>
         <a href="support.html">📞 Support</a>
+        <a href="profile.html">👤 Profile</a>
         <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
         <a href="#" onclick="logout()">🚪 Logout</a>
       </nav>
@@ -27,38 +24,17 @@
 
     <main class="main-content">
       <header>
-        <h1>Welcome, <span id="userName">User</span></h1>
-        <p>Stay charged and drive safe 🚗⚡</p>
+        <h1>Welcome to Your EV Dashboard</h1>
+        <p>Monitor your charging activity, bookings, and more.</p>
       </header>
-
       <section class="cards">
-        <div class="card" id="totalBookings">
-          <h3>Total Bookings</h3>
-          <p>Loading...</p>
-        </div>
-        <div class="card" id="upcomingBooking">
-          <h3>Upcoming Booking</h3>
-          <p>Loading...</p>
-        </div>
-      </section>
-
-      <section class="calendar-section">
-        <h2>Your Charging Calendar</h2>
-        <div id="calendar"></div>
-      </section>
-
-      <section class="profile">
-        <h2>Your Profile</h2>
-        <div class="profile-card">
-          <p><strong>Email:</strong> <span id="userEmail">loading...</span></p>
-          <p><strong>Role:</strong> User</p>
-        </div>
+        <div class="card">🔋 Current Charge: 78%</div>
+        <div class="card">📍 Nearest Station: 1.2km</div>
+        <div class="card">📅 Upcoming Booking: Tomorrow</div>
       </section>
     </main>
   </div>
 
-  <script type="module" src="../js/dashboard.js"></script>
-  <script type="module" src="js/calendar.js"></script>
+  <script type="module" src="scripts/dashboard.js"></script>
 </body>
-
 </html>

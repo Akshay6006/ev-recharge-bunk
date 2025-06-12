@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EV App - Login & Register</title>
+  <link rel="stylesheet" href="styles/auth.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-box">
+      <h2 id="form-title">Login</h2>
+
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+
+      <input type="text" id="name" placeholder="Full Name" style="display: none;" />
+
+      <button id="authButton">Login</button>
+      <p id="toggleText">Don't have an account? <a href="#" id="toggleLink">Register</a></p>
+
+      <p class="error" id="errorMsg"></p>
+    </div>
+  </div>
+
+  <script type="module" src="scripts/auth.js"></script>
+</body>
+</html>

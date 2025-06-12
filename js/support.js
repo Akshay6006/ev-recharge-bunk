@@ -23,3 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
     form.reset();
   });
 });
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+}
+
+function logout() {
+  // Add Firebase logout logic here if required
+  alert("Logging out...");
+  window.location.href = "index.html";
+}

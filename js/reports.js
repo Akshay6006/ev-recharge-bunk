@@ -4,74 +4,42 @@ import {
   collection,
   getDocs
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-
-import { firebaseConfig } from "../../scripts/firebase-config.js";
+import { firebaseConfig } from "./firebase-config.js";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const usersCol = collection(db, "users");
-const bookingsCol = collection(db, "bookings");
+// Load Report Data
+async function loadReports() {
+  try {
+    const usersSnapshot = await getDocs(collection(db, "users"));
+    const bookingsSnapshot = await getDocs(collection(db, "bookings"));
 
-const totalUsersSpan = document.querySelector("#totalUsers span");
-const totalBookingsSpan = document.querySelector("#totalBookings span");
-const topChargerSpan = document.querySelector("#topCharger span");
+    document.getElementById("totalUsers").textContent = usersSnapshot.size;
+    document.getElementById("totalBookings").textContent = bookingsSnapshot.size;
 
-async function generateReports() {
-  const usersSnap = await getDocs(usersCol);
-  const bookingsSnap = await getDocs(bookingsCol);
+    // Example: Count stations
+    const stationCount = {};
+    bookingsSnapshot.forEach(doc => {
+      const data = doc.data();
+      const station = data.station || "Unknown";
+      stationCount[station] = (stationCount[station] || 0) + 1;
+    });
 
-  totalUsersSpan.textContent = usersSnap.size;
-  totalBookingsSpan.textContent = bookingsSnap.size;
+    const sortedStations = Object.entries(stationCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
 
-  let chargerCount = {};
-  let dateCount = {};
-
-  bookingsSnap.forEach(doc => {
-    const data = doc.data();
-
-    // Count chargers
-    if (data.chargerName) {
-      chargerCount[data.chargerName] = (chargerCount[data.chargerName] || 0) + 1;
-    }
-
-    // Count by date
-    if (data.date) {
-      dateCount[data.date] = (dateCount[data.date] || 0) + 1;
-    }
-  });
-
-  // Find most used charger
-  let topCharger = Object.entries(chargerCount).sort((a, b) => b[1] - a[1])[0];
-  topChargerSpan.textContent = topCharger ? `${topCharger[0]} (${topCharger[1]})` : "N/A";
-
-  // Generate chart data
-  const chartLabels = Object.keys(dateCount).sort();
-  const chartData = chartLabels.map(date => dateCount[date]);
-
-  const ctx = document.getElementById("bookingChart").getContext("2d");
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: chartLabels,
-      datasets: [{
-        label: "Bookings per Day",
-        data: chartData,
-        backgroundColor: "#6c5ce7"
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
+    const stationList = document.getElementById("topStations");
+    stationList.innerHTML = "";
+    sortedStations.forEach(([station, count]) => {
+      const li = document.createElement("li");
+      li.textContent = `${station} - ${count} bookings`;
+      stationList.appendChild(li);
+    });
+  } catch (err) {
+    console.error("Error loading reports:", err);
+  }
 }
 
-generateReports();
+loadReports();

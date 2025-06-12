@@ -2,73 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="styles/admin-dashboard.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - EV App</title>
+  <link rel="stylesheet" href="styles/dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="sidebar">
-    <h2>EV Admin</h2>
-    <a href="#" class="active">Dashboard</a>
-    <a href="manage-users.html">Manage Users</a>
-    <a href="manage-booking.html">Manage Bookings</a>
-    <a href="reports.html">Reports</a>
-    <a href="#" onclick="logout()">Logout</a>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>⚡ Admin Panel</h2>
+      <nav>
+        <a href="admin-dashboard.html" class="active">📊 Dashboard</a>
+        <a href="manage-users.html">👥 Manage Users</a>
+        <a href="manage-bookings.html">📝 Manage Bookings</a>
+        <a href="reports.html">📈 Reports</a>
+        <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h1>Admin Overview</h1>
+        <p>Track all activities and manage the EV network.</p>
+      </header>
+      <section class="cards">
+        <div class="card">📅 Total Bookings: 123</div>
+        <div class="card">👥 Active Users: 75</div>
+        <div class="card">🔌 Stations Available: 12</div>
+      </section>
+    </main>
   </div>
 
-  <div class="main">
-
-    <div class="topbar">
-      <h1>Welcome, Admin</h1>
-      <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
-    </div>
-    <section class="dashboard-cards">
-  <div class="card" id="card-total-users">
-    <h3>Total Users</h3>
-    <p id="totalUsers">Loading...</p>
-  </div>
-  <div class="card" id="card-total-bookings">
-    <h3>Total Bookings</h3>
-    <p id="totalBookings">Loading...</p>
-  </div>
-  <div class="card" id="card-total-stations">
-    <h3>Charging Stations</h3>
-    <p id="totalStations">Loading...</p>
-  </div>
-  <div class="card" id="card-total-revenue">
-    <h3>Total Revenue</h3>
-    <p id="totalRevenue">Loading...</p>
-  </div>
-</section>
-
-    <!-- <div class="topbar">
-      <h1>Welcome, Admin</h1>
-      <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
-    </div> -->
-
-    <!-- <div class="cards">
-      <div class="card" id="totalUsers">
-        <h3>Total Users</h3>
-        <p>--</p>
-      </div>
-      <div class="card" id="totalBookings">
-        <h3>Total Bookings</h3>
-        <p>--</p>
-      </div>
-      <div class="card" id="totalRevenue">
-        <h3>Total Revenue</h3>
-        <p>--</p>
-      </div>
-      <div class="card" id="activeStations">
-        <h3>Stations Online</h3>
-        <p>--</p>
-      </div>
-    </div> -->
-
-    <!-- <div class="animation">
-      <img src="images/ev-animation.gif" alt="EV Animation" />
-    </div> -->
-  </div>
-
-<script type="module" src="../js/dashboard.js"></script>
+  <script type="module" src="scripts/dashboard.js"></script>
 </body>
 </html>

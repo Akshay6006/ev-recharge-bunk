@@ -2,32 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Manage Bookings - Admin</title>
-  <link rel="stylesheet" href="styles/manage-booking.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Bookings - EV Admin</title>
+  <link rel="stylesheet" href="styles/dashboard.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Manage Bookings</h1>
+    <aside class="sidebar">
+      <h2>⚡ EV Admin</h2>
+      <nav>
+        <a href="admin-dashboard.html">🏠 Dashboard</a>
+        <a href="manage-users.html">👥 Manage Users</a>
+        <a href="manage-bookings.html" class="active">📅 Manage Bookings</a>
+        <a href="reports.html">📊 Reports</a>
+        <a href="#" onclick="toggleDarkMode()">🌓 Dark Mode</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+      </nav>
+    </aside>
 
-    <input type="text" id="search" placeholder="Search by email or date..." />
-
-    <table id="bookingsTable">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>User Email</th>
-          <th>Charger</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Populated dynamically -->
-      </tbody>
-    </table>
+    <main class="main-content">
+      <header>
+        <h1>Manage Bookings</h1>
+        <p>Review all user booking details</p>
+      </header>
+      <section>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Charger</th>
+            </tr>
+          </thead>
+          <tbody id="bookingTable">
+            <!-- Booking data -->
+          </tbody>
+        </table>
+      </section>
+    </main>
   </div>
 
-  <script type="module" src="js/manage-bookings.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    import { firebaseConfig } from "./firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const bookingTable = document.getElementById("bookingTable");
+
+    async function fetchBookings() {
+      const querySnapshot = await getDocs(collection(db, "bookings"));
+      querySnapshot.forEach((doc) => {
+        const booking = doc.data();
+        const row = `
+          <tr>
+            <td>${booking.user || "N/A"}</td>
+            <td>${booking.date}</td>
+            <td>${booking.time}</td>
+            <td>${booking.charger || "N/A"}</td>
+          </tr>
+        `;
+        bookingTable.innerHTML += row;
+      });
+    }
+
+    fetchBookings();
+
+    window.toggleDarkMode = function () {
+      document.body.classList.toggle("dark");
+    };
+
+    window.logout = function () {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    };
+  </script>
 </body>
 </html>

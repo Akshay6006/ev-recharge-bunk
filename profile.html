@@ -3,18 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>User Profile</title>
-  <link rel="stylesheet" href="styles/profile.css" />
+  <title>Profile - EV App</title>
+  <link rel="stylesheet" href="styles/dashboard.css" />
 </head>
 <body>
-  <div class="profile-container">
-    <h2>Your Profile</h2>
-    <input type="email" id="email" placeholder="Email" disabled />
-    <input type="text" id="displayName" placeholder="Display Name" />
-    <button id="updateBtn">Update Name</button>
-    <button class="logout" id="logoutBtn">Logout</button>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>⚡ EV User</h2>
+      <nav>
+        <a href="user-dashboard.html">🏠 Dashboard</a>
+        <a href="find-charger.html">🔌 Find Chargers</a>
+        <a href="booking.html">📅 Bookings</a>
+        <a href="support.html">📞 Support</a>
+        <a href="profile.html" class="active">👤 Profile</a>
+        <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h1>My Profile</h1>
+      </header>
+      <section>
+        <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+        <label for="displayName">Display Name:</label><br />
+        <input type="text" id="displayName" placeholder="Enter your name" /><br /><br />
+        <button id="updateBtn">Update Profile</button>
+        <p id="updateStatus" style="color: green;"></p>
+      </section>
+    </main>
   </div>
 
-  <script type="module" src="scripts/profile.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      updateProfile,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    import { firebaseConfig } from "./firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.toggleDarkMode = function () {
+      document.body.classList.toggle("dark");
+    };
+
+    window.logout = function () {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("email").textContent = user.email;
+        document.getElementById("displayName").value = user.displayName || "";
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+
+    document.getElementById("updateBtn").addEventListener("click", () => {
+      const user = auth.currentUser;
+      const name = document.getElementById("displayName").value;
+      if (user) {
+        updateProfile(user, { displayName: name }).then(() => {
+          document.getElementById("updateStatus").textContent = "Name updated successfully!";
+        }).catch((error) => {
+          console.error("Update error:", error);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
