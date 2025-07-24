@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile - EV App</title>
-  <link rel="stylesheet" href="styles/dashboard.css" />
+  <link rel="stylesheet" href="styles/profile.css" />
 </head>
 <body>
   <div class="container">
@@ -17,67 +17,38 @@
         <a href="support.html">📞 Support</a>
         <a href="profile.html" class="active">👤 Profile</a>
         <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
-        <a href="#" onclick="logout()">🚪 Logout</a>
       </nav>
     </aside>
 
     <main class="main-content">
-      <header>
-        <h1>My Profile</h1>
-      </header>
-      <section>
-        <p><strong>Email:</strong> <span id="email">Loading...</span></p>
-        <label for="displayName">Display Name:</label><br />
-        <input type="text" id="displayName" placeholder="Enter your name" /><br /><br />
+      <div class="profile-card">
+        <h1>👤 My Profile</h1>
+        <label for="email">Email:</label>
+        <input type="email" id="email" readonly />
+
+        <label for="displayName">Display Name:</label>
+        <input type="text" id="displayName" placeholder="Enter your name" />
+
         <button id="updateBtn">Update Profile</button>
-        <p id="updateStatus" style="color: green;"></p>
-      </section>
+        <p id="updateStatus"></p>
+
+        <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+      </div>
     </main>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged,
-      updateProfile,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-    import { firebaseConfig } from "./firebase-config.js";
+  <script type="module" src="js/profile.js"></script>
+  <script>window.toggleDarkMode = function () {
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+};
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    window.toggleDarkMode = function () {
-      document.body.classList.toggle("dark");
-    };
-
-    window.logout = function () {
-      signOut(auth).then(() => {
-        window.location.href = "index.html";
-      });
-    };
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("email").textContent = user.email;
-        document.getElementById("displayName").value = user.displayName || "";
-      } else {
-        window.location.href = "index.html";
-      }
-    });
-
-    document.getElementById("updateBtn").addEventListener("click", () => {
-      const user = auth.currentUser;
-      const name = document.getElementById("displayName").value;
-      if (user) {
-        updateProfile(user, { displayName: name }).then(() => {
-          document.getElementById("updateStatus").textContent = "Name updated successfully!";
-        }).catch((error) => {
-          console.error("Update error:", error);
-        });
-      }
-    });
-  </script>
+// Apply saved mode on page load
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark-mode");
+  }
+});
+</script>
 </body>
 </html>

@@ -1,73 +1,70 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+// scripts/auth.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile
-} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-import { firebaseConfig } from "./firebase-config.js";
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+// 🔁 Replace with your Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyAPjZ3lu2dvuDgKcvpxLaarMnzj7n1si7Y",
+  authDomain: "ev-recharge-bunk-dbd05.firebaseapp.com",
+  projectId: "ev-recharge-bunk-dbd05",
+  storageBucket: "ev-recharge-bunk-dbd05.firebasestorage.app",
+  messagingSenderId: "376503343817",
+  appId: "1:376503343817:web:564092ebe808ad8bbe4b18"
+};
+
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
 
+// Get DOM elements
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const nameInput = document.getElementById("name");
 const authButton = document.getElementById("authButton");
-const formTitle = document.getElementById("form-title");
 const toggleLink = document.getElementById("toggleLink");
+const formTitle = document.getElementById("form-title");
 const toggleText = document.getElementById("toggleText");
 const errorMsg = document.getElementById("errorMsg");
 
-let isLogin = true;
+let isLogin = true; // Toggle state
 
+// Toggle login/register mode
 toggleLink.addEventListener("click", () => {
   isLogin = !isLogin;
-  if (isLogin) {
-    formTitle.textContent = "Login";
-    nameInput.style.display = "none";
-    authButton.textContent = "Login";
-    toggleText.innerHTML = `Don't have an account? <a href="#" id="toggleLink">Register</a>`;
-  } else {
-    formTitle.textContent = "Register";
-    nameInput.style.display = "block";
-    authButton.textContent = "Register";
-    toggleText.innerHTML = `Already have an account? <a href="#" id="toggleLink">Login</a>`;
-  }
+  formTitle.textContent = isLogin ? "Login" : "Register";
+  authButton.textContent = isLogin ? "Login" : "Register";
+  toggleText.innerHTML = isLogin
+    ? `Don't have an account? <a href="#" id="toggleLink">Register</a>`
+    : `Already have an account? <a href="#" id="toggleLink">Login</a>`;
+  nameInput.style.display = isLogin ? "none" : "block";
+  errorMsg.textContent = "";
 });
 
-authButton.addEventListener("click", async () => {
+// Handle login or registration
+authButton.addEventListener("click", async (e) => {
+  e.preventDefault();
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
   const name = nameInput.value.trim();
 
-  errorMsg.textContent = "";
-
   if (!email || !password || (!isLogin && !name)) {
-    errorMsg.textContent = "Please fill all fields.";
+    errorMsg.textContent = "Please fill in all required fields.";
     return;
   }
 
   try {
     if (isLogin) {
       await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "user-dashboard.html"; // redirect after login
+      window.location.href = "user-dashboard.html"; // Redirect on success
     } else {
-      const userCred = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(userCred.user, {
-        displayName: name,
-      });
-      await setDoc(doc(db, "users", userCred.user.uid), {
-        email: email,
-        displayName: name,
-        role: "user",
-      });
-      alert("Registered successfully!");
-      window.location.href = "user-dashboard.html";
+      await createUserWithEmailAndPassword(auth, email, password);
+      window.location.href = "user-dashboard.html"; // Redirect after registration
     }
-  } catch (error) {
-    errorMsg.textContent = error.message;
+  } catch (err) {
+    errorMsg.textContent = err.message;
   }
 });

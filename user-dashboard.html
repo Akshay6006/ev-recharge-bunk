@@ -35,6 +35,18 @@
     </main>
   </div>
 
-  <script type="module" src="scripts/dashboard.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+  <script>window.toggleDarkMode = function () {
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+};
+
+// Apply saved mode on page load
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark-mode");
+  }
+});
+</script>
 </body>
 </html>

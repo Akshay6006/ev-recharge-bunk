@@ -5,19 +5,17 @@ import {
   updateProfile,
   signOut
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
 
-// Wait for DOM to load
 document.addEventListener("DOMContentLoaded", () => {
   const emailInput = document.getElementById("email");
   const displayNameInput = document.getElementById("displayName");
   const updateBtn = document.getElementById("updateBtn");
+  const updateStatus = document.getElementById("updateStatus");
   const logoutBtn = document.getElementById("logoutBtn");
 
   // Auth check
@@ -30,20 +28,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Update Name
+  // Update Display Name
   updateBtn.addEventListener("click", () => {
-    const name = displayNameInput.value.trim();
     const user = auth.currentUser;
+    const name = displayNameInput.value.trim();
 
     if (user && name) {
       updateProfile(user, { displayName: name })
         .then(() => {
-          alert("Name updated successfully!");
+          updateStatus.textContent = "✅ Name updated successfully!";
+          updateStatus.style.color = "green";
         })
         .catch((error) => {
-          console.error("Error updating name:", error);
-          alert("Failed to update name.");
+          console.error("Update error:", error);
+          updateStatus.textContent = "❌ Failed to update name.";
+          updateStatus.style.color = "red";
         });
+    } else {
+      updateStatus.textContent = "❗ Please enter a valid name.";
+      updateStatus.style.color = "orange";
     }
   });
 

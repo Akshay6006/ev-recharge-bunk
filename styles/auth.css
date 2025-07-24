@@ -1,57 +1,79 @@
-body {
+/* Reset styles */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(120deg, #1e3c72, #2a5298);
+}
+
+/* Full screen background with image */
+body {
   height: 100vh;
+  background: url('../pics/2.jpg') no-repeat center center/cover;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Main container */
 .auth-container {
-  background: #fff;
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 40px;
-  border-radius: 10px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   width: 350px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
 }
 
+/* Auth box content */
 .auth-box h2 {
-  text-align: center;
   margin-bottom: 20px;
+  text-align: center;
+  color: #333;
 }
 
 .auth-box input {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-  font-size: 14px;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
 .auth-box button {
   width: 100%;
   padding: 12px;
-  background-color: #2a5298;
-  color: white;
+  background-color: #0d6efd;
   border: none;
-  font-weight: bold;
-  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .auth-box button:hover {
-  background-color: #1e3c72;
+  background-color: #0a58ca;
 }
 
 #toggleText {
   text-align: center;
   margin-top: 10px;
+  color: #333;
+}
+
+#toggleText a {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+#toggleText a:hover {
+  text-decoration: underline;
 }
 
 .error {
   color: red;
+  font-size: 14px;
   text-align: center;
-  margin-top: 10px;
 }

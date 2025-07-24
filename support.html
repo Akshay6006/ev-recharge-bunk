@@ -25,14 +25,15 @@
       <h1>Need Help?</h1>
       <p>If you’re facing any issues, feel free to reach out to us.</p>
       <form id="supportForm">
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <textarea placeholder="Describe your issue here..." required></textarea>
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <textarea id="message" placeholder="Describe your issue here..." required></textarea>
         <button type="submit">Submit</button>
+        <p id="formStatus" style="margin-top: 10px;"></p>
       </form>
     </main>
   </div>
 
-  <script src="scripts/common.js"></script>
+  <script src="js/support.js"></script>
 </body>
 </html>

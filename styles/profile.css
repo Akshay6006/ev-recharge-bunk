@@ -1,60 +1,113 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-              url('https://images.unsplash.com/photo-1605733160314-4cd92b6ae67c') no-repeat center center fixed;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: #fff;
+  background-color: #f2f2f2;
   margin: 0;
+  padding: 0;
 }
 
-.profile-container {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-  max-width: 400px;
-  width: 100%;
+.container {
+  display: flex;
 }
 
-h2 {
-  text-align: center;
+.sidebar {
+  background-color: #2e3a59;
+  color: white;
+  padding: 20px;
+  width: 220px;
+  height: 100vh;
+}
+
+.sidebar h2 {
   margin-bottom: 20px;
 }
 
-input {
+.sidebar nav a {
+  display: block;
+  color: white;
+  padding: 10px 0;
+  text-decoration: none;
+}
+
+.sidebar nav a.active {
+  background-color: #1c253b;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.profile-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.profile-card h1 {
+  margin-bottom: 20px;
+}
+
+.profile-card input {
   width: 100%;
   padding: 12px;
-  margin-bottom: 15px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  margin: 8px 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
 button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  margin-top: 10px;
-  cursor: pointer;
-  background-color: #00b894;
+  padding: 10px 20px;
+  background-color: #3a7bd5;
   color: white;
-  transition: background 0.3s;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
-button:hover {
-  background-color: #019875;
+button.logout-btn {
+  background-color: #d9534f;
+  margin-top: 20px;
 }
 
-.logout {
-  background-color: #d63031;
+#updateStatus {
+  margin-top: 10px;
+  font-weight: 500;
+}
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
 }
 
-.logout:hover {
-  background-color: #c0392b;
+body.dark-mode .sidebar {
+  background-color: #1e1e2f;
+}
+
+body.dark-mode .sidebar nav a {
+  color: #ddd;
+}
+
+body.dark-mode .sidebar nav a.active {
+  background-color: #333;
+}
+
+body.dark-mode .main-content {
+  background-color: #121212;
+}
+
+body.dark-mode .profile-card {
+  background-color: #1e1e1e;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode input,
+body.dark-mode button {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  border: 1px solid #555;
 }

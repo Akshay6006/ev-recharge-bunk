@@ -5,30 +5,29 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // You can connect this to Firebase, EmailJS, or a backend in the future.
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const message = document.getElementById("message").value.trim();
 
     if (!name || !email || !message) {
-      status.textContent = "Please fill out all fields.";
+      status.textContent = "❗ Please fill out all fields.";
       status.style.color = "orange";
       return;
     }
 
-    status.textContent = "Message sent successfully!";
-    status.style.color = "lightgreen";
+    // Placeholder for sending data to Firebase, EmailJS, etc.
+    status.textContent = "✅ Message sent successfully!";
+    status.style.color = "green";
 
-    // Clear form
-    form.reset();
+    form.reset(); // clear the form
   });
 });
+
 function toggleDarkMode() {
   document.body.classList.toggle("dark-mode");
 }
 
 function logout() {
-  // Add Firebase logout logic here if required
   alert("Logging out...");
   window.location.href = "index.html";
 }
