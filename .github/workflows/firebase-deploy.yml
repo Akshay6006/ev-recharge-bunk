@@ -1,0 +1,22 @@
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - main   # change to master if your default branch is master
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_EV_RECHARGE_BUNK_DBD05 }}"
+          channelId: live
+          projectId: ev-recharge-bunk-dbd05
